@@ -7,8 +7,30 @@ import beneficio1 from '@images/beneficio1.webp'
 import beneficio2 from '@images/beneficio2.webp'
 import beneficio3 from '@images/beneficio3.webp'
 import { px } from "framer-motion"
+import { useEffect, useState } from "react"
+import useAppwrite from "@hooks/useAppwrite"
+import { Appwrite } from "../shared/lib/env"
 
 const Home = () => {
+
+  const [products, setProducts] = useState([]);
+  const { fromDatabase } = useAppwrite();
+  const productsCollection = fromDatabase(Appwrite.databaseId).collection(Appwrite.collections.products);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await productsCollection.getDocuments();
+      console.log("productos obtenidos:",response)
+      setProducts(response);
+    } catch (error) {
+      console.error("Error al obtener los productos:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <BaseLayout>
         <>
@@ -31,8 +53,31 @@ const Home = () => {
                 </HStack>
             </Box>
             <Box justifyContent='center' display='flex' flexWrap='wrap' w={['80%', '90%']} m='0 auto' gap='2em'>
-                    {/* <DummyProducts /> */}
+                            
+            {products.length >= 0 ? (
+                products.map((product: any) => (
+                <Box key={product.$id} borderWidth="1px" borderRadius="lg" overflow="hidden" p="4" textAlign="center">
+                    <Image
+                    src={`https://cloud.appwrite.io/v1/storage/buckets/${Appwrite.buckets.pictures}/files/${product.imageId}/preview`}
+                    alt={product.name}
+                    borderRadius="md"
+                    />
+                    <Text fontSize="xl" fontWeight="bold" mt="2">
+                    {product.name}
+                    </Text>
+                    <Text fontSize="md" color="gray.600">
+                    {product.description}
+                    </Text>
+                    <Text fontSize="lg" color="teal.500" mt="2">
+                    ${product.price}
+                    </Text>
+                </Box>
+                ))
+            ) : (
+                <Text>No hay productos disponibles.</Text>
+            )}
             </Box>
+                
 
 
         </>
