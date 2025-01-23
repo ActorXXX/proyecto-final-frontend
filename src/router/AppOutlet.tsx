@@ -1,5 +1,6 @@
 /*import { Suspense } from "react"*/
-import { Navigate } from "react-router-dom"
+import { Suspense } from "react"
+import { Navigate, Outlet } from "react-router-dom"
 import { Toaster } from "sonner"
 
 const AppOutlet = () => {
@@ -7,12 +8,11 @@ const AppOutlet = () => {
     <>
     <Toaster richColors />
     {
-        /*(token && session) ?
-            <Suspense fallback={<Loading />}>
+        
+            <Suspense>
                 <Outlet />
             </Suspense>
-            :*/
-            <Navigate to='/' />
+            
     }
 </>
 )
