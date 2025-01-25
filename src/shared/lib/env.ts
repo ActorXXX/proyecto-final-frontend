@@ -7,7 +7,7 @@ export const Appwrite = {
     },
 
     buckets: {
-        pictures: import.meta.env.VITE_APPWRITE_PRODUCTS_BUCKET_ID,
+        pictures: import.meta.env.VITE_APPWRITE_PRODUCT_BUCKET_ID,
         // profile: import.meta.env.VITE_APPWRITE_PROFILE_BUCKET_ID
     }
 }
