@@ -5,6 +5,7 @@ import Product from './Product'
 import { PersonalProduct } from '../declarations/Database'
 import { Box, Text } from '@chakra-ui/react'
 
+
 const DummyProducts = () => {
     const [products, setProducts] = useState<Array<PersonalProduct>>([])
     const { fromDatabase } = useAppwrite()
@@ -12,7 +13,7 @@ const DummyProducts = () => {
 
     const getProducts = async () => {
         try {
-            const response = await productsCollection.getDocuments([]);       
+            const response = await productsCollection.getDocuments([])
             setProducts(response.documents);
             
             console.log(products)
@@ -33,10 +34,11 @@ const DummyProducts = () => {
         </Box>
         
         {
-            products && products.map(p => (
+            products && products.filter(p=> p.discount).map((p)  => (
                 <Product key={p.id} product={p} />
             ))
         }
+        
         </>
     )
 }

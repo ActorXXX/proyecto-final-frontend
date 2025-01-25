@@ -1,22 +1,26 @@
-import { Box, HStack, Image, Menu, MenuButton, MenuItem, MenuList, Text, Link } from "@chakra-ui/react"
-import { ReactElement } from "react"
-/*import { Link } from "react-router-dom"*/
-
+import { ReactElement } from 'react';
+import { FaUsers } from "react-icons/fa";
+import { RiHomeLine } from "react-icons/ri";
+import { DiAptana } from "react-icons/di";
+import { useNavigate, Link } from "react-router-dom";
+import { Box, HStack, Image, Text, Menu, MenuButton, MenuList, MenuItem, Link as ChakraLink } from '@chakra-ui/react';
+import { LuCircleUserRound, LuShoppingCart } from "react-icons/lu";
 import logo from '/my-logo.png'
 
-import { LuCircleUserRound, LuShoppingCart } from "react-icons/lu"
-
-import { FaUsers } from "react-icons/fa"
-import { RiHomeLine } from "react-icons/ri"
-
-const NavLink = ({ icon, text }: {
+const NavLink = ({ icon, text, to }: {
     icon: ReactElement,
-    text: string
+    text: string,
+    to: string
 }) => {
     return (
-        <Link display='flex' gap='10px' alignItems='center'> {icon} {text}</Link>
+        <ChakraLink as={Link} to={to} display='flex' gap='10px' alignItems='center'>
+        {icon} {text}
+        </ChakraLink>
     )
 }
+
+
+
 const ProfileMenu = () => {
     return (
         <Menu>
@@ -32,6 +36,9 @@ const ProfileMenu = () => {
     )
 }
 const Navbar = () => {
+    const navigate = useNavigate()
+
+
     return (
         <HStack minH='40px' bgColor='#1a1a1a' mb='2em'>
             <HStack w='70%' m='0 auto' p='1em 0' color='#eee' justifyContent='space-between'>
@@ -40,13 +47,14 @@ const Navbar = () => {
                     <Text fontSize='2xl'>Mi tienda</Text>
                 </HStack>
                 <HStack gap='2em'>
-                    <NavLink icon={<RiHomeLine />} text='Inicio' />
-                    <NavLink icon={<FaUsers />} text='Nosotros' />
+                    <NavLink icon={<RiHomeLine />} text='Inicio' to='/' />
+                    <NavLink icon={<FaUsers />} text='Nosotros' to='/about' />
+                    <NavLink icon={<DiAptana />} text='Intranet' to='/login' />
                     <ProfileMenu />
-                    <NavLink icon={<LuShoppingCart />} text='' />
                 </HStack>
             </HStack>
         </HStack>
-    )
+    );
+
 }
 export default Navbar

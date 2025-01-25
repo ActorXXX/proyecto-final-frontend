@@ -10,11 +10,11 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    // const account = useAppwrite().account.createEmailPasswordSession();
+    const { account } = useAppwrite();
 
     const handleLogin = async () => {
         try {
-            await useAppwrite().account.createEmailPasswordSession(email, password);
+            await account.createEmailPasswordSession(email, password);
             // Redirigir al usuario a la página principal o a la página deseada
             window.location.href = '/admin';
         } catch (err) {

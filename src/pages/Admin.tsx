@@ -1,7 +1,8 @@
+import DummyProducts from "@components/DummyProducto"
 
 const Admin = () => {
   return (
-    <div>Admin</div>
+    <DummyProducts></DummyProducts>
   )
 }
 
