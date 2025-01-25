@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Image, Link, Text } from '@chakra-ui/react'
+import { Box, Button, Heading, Image, Link, Text } from '@chakra-ui/react'
 import { PersonalProduct } from '../declarations/Database'
 import { Appwrite } from '../lib/env'
 

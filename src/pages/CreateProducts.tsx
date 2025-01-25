@@ -18,8 +18,6 @@ import {
   FormControl,
   FormLabel,
   Checkbox,
-  HStack,
-  Flex,
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
 import BaseLayout from '@layouts/BaseLayout';
@@ -34,7 +32,7 @@ const CreateProducts = () => {
   const { fromDatabase, fromStorage } = useAppwrite();
   const productsCollection = fromDatabase(Appwrite.databaseId).collection(Appwrite.collections.products);
   const storage = fromStorage();
-  const bucket = storage.bucket(Appwrite.buckets.pictures);
+  // const bucket = storage.bucket(Appwrite.buckets.pictures);
 
   
 

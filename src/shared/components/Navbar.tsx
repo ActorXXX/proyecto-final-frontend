@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
-import { FaUsers } from "react-icons/fa";
+// import { FaUsers } from "react-icons/fa";
 import { RiHomeLine } from "react-icons/ri";
 import { DiAptana } from "react-icons/di";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Box, HStack, Image, Text, Menu, MenuButton, MenuList, MenuItem, Link as ChakraLink } from '@chakra-ui/react';
 import { LuCircleUserRound, LuShoppingCart } from "react-icons/lu";
 import logo from '/my-logo.png'
@@ -36,7 +36,7 @@ const ProfileMenu = () => {
     )
 }
 const Navbar = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
 
     return (

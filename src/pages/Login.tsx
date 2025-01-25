@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Account } from 'appwrite';
+// import { Account } from 'appwrite';
 import { Box, Button, Input, Text } from '@chakra-ui/react';
-import { Appwrite } from '../shared/lib/env';
+// import { Appwrite } from '../shared/lib/env';
 import loginBackground from '@images/loginbg.jpeg'
 import useAppwrite from '@hooks/useAppwrite';
 import { useNavigate } from 'react-router-dom';

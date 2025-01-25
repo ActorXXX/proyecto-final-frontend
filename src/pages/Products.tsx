@@ -1,7 +1,7 @@
 import useAppwrite from "@hooks/useAppwrite";
 import BaseLayout from "@layouts/BaseLayout";
 import { Query } from "appwrite";
-import DummyProducts from "@components/DummyProducto";
+// import DummyProducts from "@components/DummyProducto";
 import { useEffect, useState } from "react";
 import { PersonalProduct } from "src/shared/declarations/Database";
 import { Appwrite } from "../shared/lib/env";

@@ -1,5 +1,5 @@
 
-import { Box, Center, HStack, Image, Text } from "@chakra-ui/react"
+import { Box, HStack, Image, Text } from "@chakra-ui/react"
 import Carousel from "@components/Carousel"
 import BaseLayout from "@layouts/BaseLayout"
 
