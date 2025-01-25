@@ -9,30 +9,26 @@ import { Box, Button, Text } from "@chakra-ui/react";
 
 const Products = () => {
   const [appwriteProducts, setAppwriteProducts] = useState<Array<PersonalProduct>>([]);
-  const [filter, setFilter] = useState<"all" | "discounted" | "noDiscount">("all"); // Estado del filtro actual
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Estado de carga
+  const [filter, setFilter] = useState<"all" | "discounted" | "noDiscount">("all");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { fromDatabase } = useAppwrite();
   const productsCollection = fromDatabase(Appwrite.databaseId).collection(Appwrite.collections.products);
 
-  // Función para obtener productos desde Appwrite según el filtro
   const getProductsFromAppwrite = async (filter: "all" | "discounted" | "noDiscount") => {
     try {
-      setIsLoading(true); // Activar estado de carga
+      setIsLoading(true);
       let documents;
 
       if (filter === "all") {
-        // Obtener todos los productos
         const response = await productsCollection.getDocuments();
         documents = response.documents;
       } else if (filter === "discounted") {
-        // Obtener productos con descuento
         const response = await productsCollection.getDocuments([
           Query.equal("discount", true),
         ]);
         documents = response.documents;
       } else if (filter === "noDiscount") {
-        // Obtener productos sin descuento
         const response = await productsCollection.getDocuments([
           Query.equal("discount", false),
         ]);
@@ -44,19 +40,17 @@ const Products = () => {
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     } finally {
-      setIsLoading(false); // Desactivar estado de carga
+      setIsLoading(false);
     }
   };
 
-  // Llamar a la función al cambiar el filtro
   useEffect(() => {
     getProductsFromAppwrite(filter);
-  }, [filter]);
+  }, [filter]); // Solo se ejecuta cuando el filtro cambia
 
   return (
     <BaseLayout>
       <>
-        {/* Botones para alternar entre los filtros */}
         <Box display="flex" justifyContent="center" marginBottom="2em">
           <Button
             colorScheme="teal"
@@ -66,6 +60,7 @@ const Products = () => {
           >
             Mostrar todos
           </Button>
+
           <Button
             colorScheme="teal"
             onClick={() => setFilter("discounted")}
@@ -74,6 +69,7 @@ const Products = () => {
           >
             Mostrar con descuento
           </Button>
+          
           <Button
             colorScheme="teal"
             onClick={() => setFilter("noDiscount")}
@@ -83,7 +79,6 @@ const Products = () => {
           </Button>
         </Box>
 
-        {/* Mostrar estado de carga o productos */}
         {isLoading ? (
           <Text textAlign="center" fontSize="xl" fontWeight="bold">
             Cargando productos...
