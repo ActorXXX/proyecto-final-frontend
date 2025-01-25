@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { PersonalProduct } from "src/shared/declarations/Database";
 import { Appwrite } from "../shared/lib/env";
 import { Box, Button, Text } from "@chakra-ui/react";
+import Product from "@components/Product";
 
 const Products = () => {
   const [appwriteProducts, setAppwriteProducts] = useState<Array<PersonalProduct>>([]);
@@ -33,6 +34,7 @@ const Products = () => {
           Query.equal("discount", false),
         ]);
         documents = response.documents;
+        console.log(filter)
       }
 
       setAppwriteProducts(documents);
@@ -87,7 +89,7 @@ const Products = () => {
           <Box display="flex" flexWrap="wrap" w="65%" m="0 auto" justifyContent="space-between" gap="3em">
             {appwriteProducts.length > 0 ? (
               appwriteProducts.map((product) => (
-                <DummyProducts key={product.id} product={product} />
+                <Product key={product.id} product={product} />
               ))
             ) : (
               <Text textAlign="center" fontSize="xl" fontWeight="bold" w="100%">

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Account } from 'appwrite';
 import { Box, Button, Input, Text } from '@chakra-ui/react';
 import { Appwrite } from '../shared/lib/env';
 import loginBackground from '@images/loginbg.jpeg'
 import useAppwrite from '@hooks/useAppwrite';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,6 +12,8 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const { account } = useAppwrite();
+
+    const navigate = useNavigate()
 
     const handleLogin = async () => {
         try {
@@ -21,6 +24,12 @@ const Login = () => {
             setError('Error al iniciar sesión. Por favor, verifica tus credenciales.');
         }
     };
+
+    useEffect(() => {
+        const session = localStorage.getItem('cookieFallback')
+
+        if (session && JSON.parse(session).length != 0) navigate('/admin')
+    }, [])
 
     return (
         <Box display='flex' flexDirection='column' backgroundImage={loginBackground} alignItems='center' justifyContent='center' height='100vh' margin={'0 auto'}>

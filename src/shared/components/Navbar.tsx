@@ -48,7 +48,7 @@ const Navbar = () => {
                 </HStack>
                 <HStack gap='2em'>
                     <NavLink icon={<RiHomeLine />} text='Inicio' to='/' />
-                    <NavLink icon={<FaUsers />} text='Nosotros' to='/about' />
+                    <NavLink icon={<LuShoppingCart />} text='Productos' to='/products' />
                     <NavLink icon={<DiAptana />} text='Intranet' to='/login' />
                     <ProfileMenu />
                 </HStack>

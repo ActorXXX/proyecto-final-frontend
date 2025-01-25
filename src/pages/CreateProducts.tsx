@@ -18,6 +18,8 @@ import {
   FormControl,
   FormLabel,
   Checkbox,
+  HStack,
+  Flex,
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
 import BaseLayout from '@layouts/BaseLayout';
@@ -150,12 +152,12 @@ const CreateProducts = () => {
         </Button>
       </Box>
 
-      <VStack spacing={4}>
+      <VStack spacing={4} mt="10">
         {products.map((p) => (
           <Box key={p.$id} p={4} borderWidth="1px" borderRadius="md" width="100%">
         {p.imageId && (
           <img
-            src={`${Appwrite.endpoint}/storage/buckets/${Appwrite.bucketId}/files/${p.imageId}/view`}
+            src={`https://cloud.appwrite.io/v1/storage/buckets/${Appwrite.buckets.pictures}/files/${p.imageId}/view?project=${Appwrite.projectId}`}
             alt={p.name}
             style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }}
           />
@@ -229,6 +231,7 @@ const CreateProducts = () => {
               <FormControl mb={4}>
                 <FormLabel>Activo</FormLabel>
                 <Checkbox
+                  bgColor="gray"
                   type="checkbox"
                   isChecked={selectedProduct.active}
                   onChange={(e) =>
@@ -239,6 +242,7 @@ const CreateProducts = () => {
               <FormControl mb={4}>
                 <FormLabel>Descuento</FormLabel>
                 <Checkbox
+                  bgColor="gray"
                   type="checkbox"
                   isChecked={selectedProduct.discount}
                   onChange={(e) =>
