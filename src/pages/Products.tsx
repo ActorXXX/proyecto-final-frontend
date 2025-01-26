@@ -19,21 +19,21 @@ const Products = () => {
   const getProductsFromAppwrite = async (filter: "all" | "discounted" | "noDiscount") => {
     try {
       setIsLoading(true);
-      let documents;
+      let documents: PersonalProduct[] = [];
 
       if (filter === "all") {
         const response = await productsCollection.getDocuments();
-        documents = response.documents;
+        documents = response.documents as PersonalProduct[];
       } else if (filter === "discounted") {
         const response = await productsCollection.getDocuments([
           Query.equal("discount", true),
         ]);
-        documents = response.documents;
+        documents = response.documents as PersonalProduct[];
       } else if (filter === "noDiscount") {
         const response = await productsCollection.getDocuments([
           Query.equal("discount", false),
         ]);
-        documents = response.documents;
+        documents = response.documents as PersonalProduct[];
         console.log(filter)
       }
 

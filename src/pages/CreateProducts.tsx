@@ -40,7 +40,7 @@ const CreateProducts = () => {
   const getProducts = async () => {
     try {
       const response = await productsCollection.getDocuments([]);
-      setProducts(response.documents);
+      setProducts(response.documents as PersonalProduct[]);
     } catch (error) {
       console.error('Error al cargar productos:', error);
     }
@@ -121,7 +121,7 @@ const CreateProducts = () => {
       const response = await productsCollection.createDocument(productData);
   
       alert('Producto creado exitosamente.');
-      setProducts((prevProducts) => [...prevProducts, response]);
+      setProducts((prevProducts) => [...prevProducts, response as PersonalProduct]);
       setIsCreateModalOpen(false);
       setNewProduct({});
     } catch (error) {

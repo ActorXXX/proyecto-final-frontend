@@ -1,6 +1,6 @@
 /*import { Suspense } from "react"*/
 import { Suspense } from "react"
-import { Navigate, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import { Toaster } from "sonner"
 
 const AppOutlet = () => {

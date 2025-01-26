@@ -14,7 +14,7 @@ const DummyProducts = () => {
     const getProducts = async () => {
         try {
             const response = await productsCollection.getDocuments([])
-            setProducts(response.documents);
+            setProducts(response.documents as PersonalProduct[]);
             
             console.log(products)
             
