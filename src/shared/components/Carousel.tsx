@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Slider from 'react-slick';
-import { imgData } from '../../assets/imgdata';
+import { imgData } from '@images/imgData';
 import { Box, Circle, HStack, Image, IconButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import 'slick-carousel/slick/slick.css';
@@ -64,7 +64,7 @@ const Carousel: React.FC = () => {
         ))}
       </Slider>
       <HStack className="dots-container" justify="center" mt={1}>
-        {imgData.map((_, idx) => (
+        {imgData.map((_: ImageData, idx: number) => (
           <Circle
             key={idx}
             size="22px"
