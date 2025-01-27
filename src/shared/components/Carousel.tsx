@@ -1,34 +1,81 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-import { Navigation, Pagination } from 'swiper/modules'
-import { Image } from '@chakra-ui/react'
-
-import carousel1 from '@images/carousel1.jpg'
-import carousel2 from '@images/carousel2.jpg'
-import carousel3 from '@images/carousel3.jpg'
-import carousel4 from '@images/carousel4.jpg'
-import carousel5 from '@images/carousel5.jpg'
-
-const SwiperImages = [carousel1, carousel2, carousel3, carousel4, carousel5]
+import { useState } from 'react';
+import Slider from 'react-slick';
+import { imgData } from '../../assets/imgdata';
+import { Box, Circle, HStack, Image, IconButton } from '@chakra-ui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './styCarousel.css'
 
 
-const Carousel = () => {
-  return (
-    <Swiper pagination={true} navigation={true}
-    modules={[Navigation, Pagination]}>
-    {
-        SwiperImages.map(image => (
-            <SwiperSlide key={image}>
-                <Image pointerEvents='none' p='4em' src={image} />
-            </SwiperSlide>
-        ))
-    }
-    </Swiper>
-  )
+interface ImageData {
+  id: number;
+  imgUrl: string;
 }
 
-export default Carousel
+const NextArrow = ({ onClick }: { onClick?: () => void }) => (
+  <IconButton
+    icon={<ChevronRightIcon />}
+    aria-label="Next slide"
+    position="absolute"
+    top="50%"
+    right="10px"
+    transform="translateY(-50%)"
+    zIndex={2}
+    onClick={onClick}
+  />
+);
+
+const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
+  <IconButton
+    icon={<ChevronLeftIcon />}
+    aria-label="Previous slide"
+    position="absolute"
+    top="50%"
+    left="10px"
+    transform="translateY(-50%)"
+    zIndex={2}
+    onClick={onClick}
+  />
+);
+
+const Carousel: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const settings = {
+    with: 100,
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    beforeChange: (_: number, next: number) => setCurrentIndex(next),
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />
+    };
+
+  return (
+    <Box className="slider-container" maxW="full" overflow="hidden" position="relative">
+      <Slider {...settings}>
+        {imgData.map((item: ImageData) => (
+          <Box key={item.id} className="slide-item">
+            <Image src={item.imgUrl} width={'full'} height={'fit-content'} objectFit="cover"/>
+          </Box>
+        ))}
+      </Slider>
+      <HStack className="dots-container" justify="center" mt={1}>
+        {imgData.map((_, idx) => (
+          <Circle
+            key={idx}
+            size="22px"
+            bg={idx === currentIndex ? 'blue.500' : 'gray.300'}
+            onClick={() => setCurrentIndex(idx)}
+            cursor="pointer"
+          />
+        ))}
+      </HStack>
+    </Box>
+  );
+};
+
+export default Carousel;

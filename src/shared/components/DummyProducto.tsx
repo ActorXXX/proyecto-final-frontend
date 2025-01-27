@@ -29,10 +29,10 @@ const DummyProducts = () => {
 
     return (
         <>
-        <Box display='flex' flexDirection={'column'} width={[300, 450, 700, 1200]} m={['0 auto', '0 auto', '0 auto']}>
+        <Box display='flex' flexDirection={'column'} width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']}>
           <Text fontSize={"4xl"} textAlign={'center'} mt={'1em'} mb={'1em'} fontWeight={'bold'}>Nuestros Ofertas</Text>
         </Box>
-        
+
         {
             products && products.filter(p=> p.discount).map((p)  => (
                 <Product key={p.id} product={p} />

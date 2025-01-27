@@ -86,7 +86,7 @@ const Products = () => {
             Cargando productos...
           </Text>
         ) : (
-          <Box display="flex" flexWrap="wrap" w="65%" m="0 auto" justifyContent="space-between" gap="3em">
+          <Box display="flex" flexWrap="wrap" w={[300, 450, 700, 900]} m="0 auto" justifyContent="space-between" gap="2em">
             {appwriteProducts.length > 0 ? (
               appwriteProducts.map((product) => (
                 <Product key={product.id} product={product} />

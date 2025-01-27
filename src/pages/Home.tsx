@@ -13,10 +13,10 @@ const Home = () => {
   return (
     <BaseLayout>
         <>
-            <Box id='fresa' width={[300, 450, 700, 1200]} m={['0 auto', '0 auto', '0 auto']}>
+            <Box id='fresa' width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']}>
                 <Carousel />
             </Box>
-            <Box display='flex' flexDirection={'column'} width={[300, 450, 700, 1200]} m={['0 auto', '0 auto', '0 auto']} >
+            <Box display='flex' flexDirection={'column'} width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']} >
                 <Text fontSize={"4xl"} textAlign={'center'} mt={'1em'} mb={'1em'} fontWeight={'bold'}>Nuestros Beneficios</Text>
                 <HStack justifyContent={'space-around'} mt={'1em'} mb={'1em'}>
                     <HStack>
@@ -30,7 +30,7 @@ const Home = () => {
                     </HStack>
                 </HStack>
             </Box>
-            <Box  display='flex' justifyContent='center'flexWrap='wrap' m={['0 auto', '0 auto', '0 auto']}  gap='1em' w={[300, 450, 700, 1200]} >
+            <Box  display='flex' justifyContent='center'flexWrap='wrap' m={['0 auto', '0 auto', '0 auto']}  gap='1em' w={[300, 450, 700, 900]} >
                 <DummyProducts />                
             </Box>
         </>
