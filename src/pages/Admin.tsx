@@ -1,8 +1,12 @@
+
 import CreateProducts from "../pages/CreateProducts"
+import AdminLayout from "@layouts/AdminLayout"
 
 const Admin = () => {
   return (
-    <CreateProducts/>
+    <AdminLayout>
+      <CreateProducts/>
+    </AdminLayout>
   )
 }
 

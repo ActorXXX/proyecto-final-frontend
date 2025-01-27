@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <BaseLayout>
         <>
-            <Box id='fresa' width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']}>
+            <Box id='fresa' width={'full'} m={['0 auto', '0 auto', '0 auto']} height={'full'}>
                 <Carousel />
             </Box>
             <Box display='flex' flexDirection={'column'} width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']} >

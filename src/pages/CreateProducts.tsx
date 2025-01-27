@@ -20,7 +20,6 @@ import {
   Checkbox,
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
-import BaseLayout from '@layouts/BaseLayout';
 
 const CreateProducts = () => {
   const [products, setProducts] = useState<Array<PersonalProduct>>([]);
@@ -138,14 +137,12 @@ const CreateProducts = () => {
   }, []);
 
   return (
-    <BaseLayout>
-    
     <>
-      <Box display="flex" flexDirection="column" width={[300, 450, 700, 1200]} m={['0 auto', '0 auto', '0 auto']}>
-        <Text fontSize="4xl" textAlign="center" mt="1em" mb="1em" fontWeight="bold">
+      <Box display="flex" flexDirection="column" width={'full'} m={['0 auto', '0 auto', '0 auto']}>
+        <Text fontSize="3xl" textAlign="center" mt="10px" mb="10px" fontWeight="bold">
           Administrar Productos
         </Text>
-        <Button colorScheme="green" onClick={() => setIsCreateModalOpen(true)}>
+        <Button colorScheme="green" width={'full'} onClick={() => setIsCreateModalOpen(true)}>
           Agregar Producto
         </Button>
       </Box>
@@ -348,7 +345,6 @@ const CreateProducts = () => {
         </ModalContent>
       </Modal>
     </>
-    </BaseLayout>
   );
 };
 
