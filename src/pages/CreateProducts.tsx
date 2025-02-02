@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Text,
-  VStack,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -18,6 +17,10 @@ import {
   FormControl,
   FormLabel,
   Checkbox,
+  List,
+  ListItem,
+  Img,
+  Textarea
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
 
@@ -138,7 +141,7 @@ const CreateProducts = () => {
 
   return (
     <>
-      <Box display="flex" flexDirection="column" width={'full'} m={['0 auto', '0 auto', '0 auto']}>
+      <Box display="flex" flexDirection="column" width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']}>
         <Text fontSize="3xl" textAlign="center" mt="10px" mb="10px" fontWeight="bold">
           Administrar Productos
         </Text>
@@ -147,45 +150,58 @@ const CreateProducts = () => {
         </Button>
       </Box>
 
-      <VStack spacing={4} mt="10">
+      <List margin='0 auto' mt="5" width="100%" w={[300, 450, 700, 900]}>
         {products.map((p) => (
-          <Box key={p.$id} p={4} borderWidth="1px" borderRadius="md" width="100%">
-        {p.imageId && (
-          <img
-            src={`https://cloud.appwrite.io/v1/storage/buckets/${Appwrite.buckets.pictures}/files/${p.imageId}/view?project=${Appwrite.projectId}`}
-            alt={p.name}
-            style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }}
-          />
-        )}
-        <Text fontSize="lg" fontWeight="bold">{p.name}</Text>
-        <Text>Marca: {p.brand}</Text>
-        <Text>Precio: ${p.price}</Text>
-        <Text>Descripción: {p.description}</Text>
-        <Text>Activo: {p.active ? 'Sí' : 'No'}</Text>
-        <Text>Descuento: {p.discount ? 'Sí' : 'No'}</Text>
-        <Box mt={2} display="flex" gap={2}>
-          <Button
-            colorScheme="blue"
-            size="sm"
-            onClick={() => {
-              setSelectedProduct(p);
-              setIsModalOpen(true);
-            }}
-          >
-            Editar
-          </Button>
-          <Button
-            colorScheme="red"
-            size="sm"
-            onClick={() => deleteProduct(p.$id)}
-            isLoading={isLoading}
-          >
-            Eliminar
-          </Button>
-        </Box>
-      </Box>
-              ))}
-      </VStack>
+          <ListItem display={'flex'} key={p.$id} p={0} borderWidth="1px" >
+            <Box borderWidth="1px" minWidth={'100px'} alignContent='center'>
+            {p.imageId && (
+                <Img
+                  src={`https://cloud.appwrite.io/v1/storage/buckets/${Appwrite.buckets.pictures}/files/${p.imageId}/view?project=${Appwrite.projectId}`}
+                  alt={p.name}
+                  width='full'
+                  height='100px'
+                  objectFit='cover'
+                  border='1px'
+                  
+              />
+            )}
+            </Box>
+            <Box display='flex' justifyContent='space-evenly' width='100%'>
+              <Box borderWidth="1px" p="5px" width='100%'>
+                <Text fontSize="md" fontWeight="bold">{p.name}</Text>
+                <Text>Marca: {p.brand}</Text>
+                <Text>Precio: ${p.price}</Text>
+                <Textarea variant="flushed" value={p.description}></Textarea>
+              </Box>
+            </Box>
+            <Box borderWidth="1px" p="5px" minWidth='118px'>
+              <Text>Activo: {p.active ? 'Sí' : 'No'}</Text>
+              <Text>Descuento: {p.discount ? 'Sí' : 'No'}</Text>
+              <Box mt={2} display="flex" flexWrap='wrap' gap={2}>
+                <Button
+                  colorScheme="blue"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedProduct(p);
+                    setIsModalOpen(true);
+                  }}
+                >
+                  Editar
+                </Button>
+                <Button
+                  colorScheme="red"
+                  size="sm"
+                  onClick={() => deleteProduct(p.$id)}
+                  isLoading={isLoading}
+                >
+                  Eliminar
+                </Button>
+              </Box>
+            </Box>     
+
+          </ListItem>
+        ))}
+      </List>
 
       {/* Modal para editar producto */}
       {selectedProduct && (
@@ -344,6 +360,13 @@ const CreateProducts = () => {
             </ModalFooter>
         </ModalContent>
       </Modal>
+      
+      {/* GRILLA ALTERNATIVA */}
+
+
+
+
+
     </>
   );
 };
