@@ -152,26 +152,25 @@ const CreateProducts = () => {
 
       <List margin='0 auto' mt="5" width="100%" w={[300, 450, 700, 900]}>
         {products.map((p) => (
-          <ListItem display={'flex'} key={p.$id} p={0} borderWidth="1px" >
-            <Box borderWidth="1px" minWidth={'100px'} alignContent='center'>
+          <ListItem display={'flex'} key={p.$id} p={0}>
+            <Box borderWidth="1px" minWidth={'50px'} w={[50, 100, 150]} alignContent='center'>
             {p.imageId && (
                 <Img
                   src={`https://cloud.appwrite.io/v1/storage/buckets/${Appwrite.buckets.pictures}/files/${p.imageId}/view?project=${Appwrite.projectId}`}
                   alt={p.name}
                   width='full'
-                  height='100px'
+                  height='inherit'
                   objectFit='cover'
-                  border='1px'
-                  
-              />
+                  mt='0'
+                />
             )}
             </Box>
-            <Box display='flex' justifyContent='space-evenly' width='100%'>
+            <Box display='flex' width='100%'>
               <Box borderWidth="1px" p="5px" width='100%'>
-                <Text fontSize="md" fontWeight="bold">{p.name}</Text>
-                <Text>Marca: {p.brand}</Text>
-                <Text>Precio: ${p.price}</Text>
-                <Textarea variant="flushed" value={p.description}></Textarea>
+                <Text fontSize="sm" fontWeight="bold">{p.name}</Text>
+                <Text fontSize="sm">Marca: {p.brand}</Text>
+                <Text fontSize="sm">Precio: ${p.price}</Text>
+                <Textarea fontSize="sm" variant="flushed" value={p.description}></Textarea>
               </Box>
             </Box>
             <Box borderWidth="1px" p="5px" minWidth='118px'>
@@ -341,7 +340,6 @@ const CreateProducts = () => {
                 type="file"
                 accept = "image/*"
                 onChange={(e) => setNewProduct({ ...newProduct, image: e.target.files?.[0] })}
-                
               />
             </FormControl>
           </ModalBody>
@@ -360,13 +358,6 @@ const CreateProducts = () => {
             </ModalFooter>
         </ModalContent>
       </Modal>
-      
-      {/* GRILLA ALTERNATIVA */}
-
-
-
-
-
     </>
   );
 };
