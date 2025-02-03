@@ -23,6 +23,7 @@ import {
   Textarea
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
+import { RiFontSize } from 'react-icons/ri';
 
 const CreateProducts = () => {
   const [products, setProducts] = useState<Array<PersonalProduct>>([]);
@@ -167,15 +168,15 @@ const CreateProducts = () => {
             </Box>
             <Box display='flex' width='100%'>
               <Box borderWidth="1px" p="5px" width='100%'>
-                <Text fontSize="sm" fontWeight="bold">{p.name}</Text>
+                <Text fontSize="sm" fontWeight='bold' isTruncated maxWidth={[100, 200]}>{p.name}</Text>
                 <Text fontSize="sm">Marca: {p.brand}</Text>
                 <Text fontSize="sm">Precio: ${p.price}</Text>
                 <Textarea fontSize="sm" variant="flushed" value={p.description}></Textarea>
               </Box>
             </Box>
             <Box borderWidth="1px" p="5px" minWidth='118px'>
-              <Text>Activo: {p.active ? 'Sí' : 'No'}</Text>
-              <Text>Descuento: {p.discount ? 'Sí' : 'No'}</Text>
+              <Text fontSize="sm">Activo: {p.active ? 'Sí' : 'No'}</Text>
+              <Text fontSize="sm">Descuento: {p.discount ? 'Sí' : 'No'}</Text>
               <Box mt={2} display="flex" flexWrap='wrap' gap={2}>
                 <Button
                   colorScheme="blue"
