@@ -23,7 +23,6 @@ import {
   Textarea
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
-import { RiFontSize } from 'react-icons/ri';
 
 const CreateProducts = () => {
   const [products, setProducts] = useState<Array<PersonalProduct>>([]);
