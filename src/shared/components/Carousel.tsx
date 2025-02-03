@@ -5,7 +5,7 @@ import { Box, Circle, HStack, Image, IconButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './styCarousel.css'
+import '../styles/styCarousel.css'
 
 
 interface ImageData {

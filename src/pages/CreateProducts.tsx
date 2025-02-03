@@ -20,9 +20,12 @@ import {
   List,
   ListItem,
   Img,
-  Textarea
+  Textarea,
+  Flex,
+  IconButton,
 } from '@chakra-ui/react';
 import { PersonalProduct } from '../shared/declarations/Database';
+import { BiPencil, BiTrash } from "react-icons/bi";
 
 const CreateProducts = () => {
   const [products, setProducts] = useState<Array<PersonalProduct>>([]);
@@ -166,38 +169,37 @@ const CreateProducts = () => {
             )}
             </Box>
             <Box display='flex' width='100%'>
-              <Box borderWidth="1px" p="5px" width='100%'>
-                <Text fontSize="sm" fontWeight='bold' isTruncated maxWidth={[100, 200]}>{p.name}</Text>
+              <Flex borderWidth="1px" p="5px" width='100%' display='flex' flexDirection='column'>
+                <Text fontSize="sm" isTruncated height='fit-content' variant="flushed" fontWeight='bold' m='0' maxW={[250, 367, 576, 770]}>{p.name}</Text>
                 <Text fontSize="sm">Marca: {p.brand}</Text>
                 <Text fontSize="sm">Precio: ${p.price}</Text>
-                <Textarea fontSize="sm" variant="flushed" value={p.description}></Textarea>
-              </Box>
+                <Textarea fontSize="sm" resize='both' variant="flushed" value={p.description}></Textarea>
+                <Box display='flex' justifyContent='space-evenly' p='5px' alignItems='center'>
+                  <Text fontSize="sm">Activo: {p.active ? 'Sí' : 'No'}</Text>
+                  <Text fontSize="sm">Descuento: {p.discount ? 'Sí' : 'No'}</Text>
+                  <IconButton
+                      colorScheme="blue"
+                      icon={<BiPencil />}
+                      size={['xs', 'sm']}
+                      aria-label="Edit Product"
+                      onClick={() => {
+                        setSelectedProduct(p);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                    </IconButton>
+                    <IconButton
+                      colorScheme="red"
+                      icon={<BiTrash />}
+                      size={['xs', 'sm']}
+                      aria-label="Delete Product"
+                      onClick={() => deleteProduct(p.$id)}
+                      isLoading={isLoading}
+                    >
+                    </IconButton>
+                  </Box>
+              </Flex>
             </Box>
-            <Box borderWidth="1px" p="5px" minWidth='118px'>
-              <Text fontSize="sm">Activo: {p.active ? 'Sí' : 'No'}</Text>
-              <Text fontSize="sm">Descuento: {p.discount ? 'Sí' : 'No'}</Text>
-              <Box mt={2} display="flex" flexWrap='wrap' gap={2}>
-                <Button
-                  colorScheme="blue"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedProduct(p);
-                    setIsModalOpen(true);
-                  }}
-                >
-                  Editar
-                </Button>
-                <Button
-                  colorScheme="red"
-                  size="sm"
-                  onClick={() => deleteProduct(p.$id)}
-                  isLoading={isLoading}
-                >
-                  Eliminar
-                </Button>
-              </Box>
-            </Box>     
-
           </ListItem>
         ))}
       </List>
