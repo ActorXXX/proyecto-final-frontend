@@ -1,45 +1,78 @@
-import { useEffect, useState } from 'react'
-import { Appwrite } from '../lib/env'
-import useAppwrite from '@hooks/useAppwrite'
-import Product from './Product'
-import { PersonalProduct } from '../declarations/Database'
-import { Box, Text } from '@chakra-ui/react'
+import BaseLayout from "@layouts/BaseLayout";
+import { useEffect, useState } from "react";
+import { Box, Button, Text } from "@chakra-ui/react";
+import Product from "@components/Product";
 
+const Products = () => {
+  const [products, setProducts] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [isLoading, setIsLoading] = useState(false);
 
-const DummyProducts = () => {
-    const [products, setProducts] = useState<Array<PersonalProduct>>([])
-    const { fromDatabase } = useAppwrite()
-    const productsCollection = fromDatabase(Appwrite.databaseId).collection(Appwrite.collections.products)
-
-    const getProducts = async () => {
-        try {
-            const response = await productsCollection.getDocuments([])
-            setProducts(response.documents as PersonalProduct[]);
-            
-            console.log(products)
-            
-        }catch(error){
-            console.error(error);
-       }
+  const getProducts = async (filter) => {
+    try {
+      setIsLoading(true);
+      let url = "/api/products";
+      if (filter === "discounted") {
+        url += "?discount=true";
+      } else if (filter === "noDiscount") {
+        url += "?discount=false";
+      }
+      
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      
+      if (!response.ok) throw new Error("Error al obtener los productos");
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error al obtener los productos:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-     useEffect(() => {
-         getProducts()
-     }, [])
+  useEffect(() => {
+    getProducts(filter);
+  }, [filter]);
 
-    return (
-        <>
-            <Box display='flex' flexDirection={'column'} width={[300, 450, 700, 900]} m={['0 auto', '0 auto', '0 auto']}>
-            <Text fontSize={"4xl"} textAlign={'center'} mt={'1em'} mb={'1em'} fontWeight={'bold'}>Nuestros Ofertas</Text>
-            </Box>
+  return (
+    <BaseLayout>
+      <>
+        <Box display="flex" justifyContent="center" marginBottom="2em">
+          <Button colorScheme="teal" onClick={() => setFilter("all")} isActive={filter === "all"} marginRight="1em">
+            Mostrar todos
+          </Button>
+          <Button colorScheme="teal" onClick={() => setFilter("discounted")} isActive={filter === "discounted"} marginRight="1em">
+            Mostrar con descuento
+          </Button>
+          <Button colorScheme="teal" onClick={() => setFilter("noDiscount")} isActive={filter === "noDiscount"}>
+            Mostrar sin descuento
+          </Button>
+        </Box>
 
-            {
-                products && products.filter(p=> p.discount).map((p)  => (
-                    <Product key={p.id} product={p} />
-                ))
-            }
-        </>
-    )
-}
+        {isLoading ? (
+          <Text textAlign="center" fontSize="xl" fontWeight="bold">
+            Cargando productos...
+          </Text>
+        ) : (
+          <Box display="flex" flexWrap="wrap" w={[300, 450, 700, 900]} m="0 auto" justifyContent="space-between" gap="2em">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <Product key={product.id} product={product} />
+              ))
+            ) : (
+              <Text textAlign="center" fontSize="xl" fontWeight="bold" w="100%">
+                No hay productos disponibles para este filtro.
+              </Text>
+            )}
+          </Box>
+        )}
+      </>
+    </BaseLayout>
+  );
+};
 
-export default DummyProducts
+export default Products;

@@ -2,7 +2,7 @@ import { Box, HStack, Image, Text } from "@chakra-ui/react";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import logo from '../../../public/my-logo.png';
 import { Link } from "react-router-dom";
-import { account } from "../lib/appwrite";
+import { account } from "../lib/api";
 
 const deleteCookieFallback = () => {
     localStorage.removeItem('cookieFallback');

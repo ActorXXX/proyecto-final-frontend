@@ -5,7 +5,8 @@ import { LuMonitor } from "react-icons/lu";
 import { DiAptana } from "react-icons/di";
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
-import logo from '../../../public/my-logo.png'; // Asegúrate de ajustar la ruta al logo
+const logo = "/my-logo.png";
+
 
 const NavLink = ({ icon, text, to }: {
     icon: React.ReactElement,

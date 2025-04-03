@@ -1,42 +1,47 @@
 import { useEffect, useState } from 'react';
-// import { Account } from 'appwrite';
 import { Box, Button, Input, Text } from '@chakra-ui/react';
-// import { Appwrite } from '../shared/lib/env';
-import loginBackground from '@images/loginbg.jpeg'
-import useAppwrite from '@hooks/useAppwrite';
+import loginBackground from '@images/loginbg.jpeg';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const { account } = useAppwrite();
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
-            await account.createEmailPasswordSession(email, password);
-            // Redirigir al usuario a la página principal o a la página deseada
-            window.location.href = '/admin';
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) throw new Error(data.message || 'Error al iniciar sesión');
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            navigate('/admin');
         } catch (err) {
-            setError('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+            setError(err.message);
         }
     };
 
     useEffect(() => {
-        const session = localStorage.getItem('cookieFallback')
-
-        if (session && JSON.parse(session).length != 0) navigate('/admin')
-    }, [])
+        const token = localStorage.getItem('token');
+        if (token) navigate('/admin');
+    }, [navigate]);
 
     return (
         <Box display='flex' flexDirection='column' backgroundImage={loginBackground} alignItems='center' justifyContent='center' height='100vh' margin={'0 auto'}>
             <Text fontSize='2xl' mb='4' color={'wheat'}>Iniciar Sesión</Text>
             <Input
                 width='300px'
-                color='white'
+                color='black'
                 bgColor='white'
                 placeholder='Correo electrónico'
                 value={email}
@@ -45,7 +50,7 @@ const Login = () => {
             />
             <Input
                 width='300px'
-                color='white'
+                color='black'
                 bgColor='white'
                 placeholder='Contraseña'
                 type='password'
