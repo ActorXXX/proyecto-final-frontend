@@ -1,78 +1,106 @@
-import BaseLayout from "@layouts/BaseLayout";
-import { useEffect, useState } from "react";
-import { Box, Button, Text } from "@chakra-ui/react";
-import Product from "@components/Product";
+import { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Input,
+  FormControl,
+  FormLabel,
+  Checkbox,
+  List,
+  ListItem,
+  Img,
+  Textarea,
+  Flex,
+  IconButton,
+} from '@chakra-ui/react';
+import { BiPencil, BiTrash } from "react-icons/bi";
+import BaseLayout from '@layouts/BaseLayout';
+
+const API_URL = "http://localhost:5000/api/products";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [filter, setFilter] = useState("all");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [newProduct, setNewProduct] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getProducts = async (filter) => {
+  // Obtener productos de la API
+  const getProducts = async () => {
     try {
-      setIsLoading(true);
-      let url = "/api/products";
-      if (filter === "discounted") {
-        url += "?discount=true";
-      } else if (filter === "noDiscount") {
-        url += "?discount=false";
-      }
-      
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      
-      if (!response.ok) throw new Error("Error al obtener los productos");
+      const response = await fetch(API_URL);
       const data = await response.json();
       setProducts(data);
     } catch (error) {
-      console.error("Error al obtener los productos:", error);
-    } finally {
-      setIsLoading(false);
+      console.error('Error al cargar productos:', error);
     }
   };
-
   useEffect(() => {
-    getProducts(filter);
-  }, [filter]);
+    getProducts();
+  }, []);
 
   return (
-    <BaseLayout>
+    
+  
       <>
-        <Box display="flex" justifyContent="center" marginBottom="2em">
-          <Button colorScheme="teal" onClick={() => setFilter("all")} isActive={filter === "all"} marginRight="1em">
-            Mostrar todos
-          </Button>
-          <Button colorScheme="teal" onClick={() => setFilter("discounted")} isActive={filter === "discounted"} marginRight="1em">
-            Mostrar con descuento
-          </Button>
-          <Button colorScheme="teal" onClick={() => setFilter("noDiscount")} isActive={filter === "noDiscount"}>
-            Mostrar sin descuento
-          </Button>
-        </Box>
+        <Box>
+          <List mt={5}>
+      {products.map((p) => (
+        <ListItem 
+          key={p.id} 
+          p={4} 
+          border="1px solid #ccc" 
+          borderRadius="md" 
+          mb={5}
+          ml={200}
+          mr={200}
+          display="flex"
+          alignItems="center"
+          gap={4}
+        >
+          {/* Imagen del producto */}
+          {p.imageId && (
+            <Img 
+              src={`${p.imageId}`} 
+              alt={p.name} 
+              boxSize="100px" 
+              objectFit="cover"
+            />
+          )}
 
-        {isLoading ? (
-          <Text textAlign="center" fontSize="xl" fontWeight="bold">
-            Cargando productos...
-          </Text>
-        ) : (
-          <Box display="flex" flexWrap="wrap" w={[300, 450, 700, 900]} m="0 auto" justifyContent="space-between" gap="2em">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <Product key={product.id} product={product} />
-              ))
-            ) : (
-              <Text textAlign="center" fontSize="xl" fontWeight="bold" w="100%">
-                No hay productos disponibles para este filtro.
-              </Text>
+          {/* Información del producto */}
+          <Box flex="1">
+            <Text fontSize="lg" fontWeight="bold">{p.name}</Text>
+            <Text fontSize="md" color="gray.600">{p.description}</Text>
+            <Text fontSize="lg" color="teal.500">${p.price}</Text>
+            {p.discount && (
+              <Text fontSize="sm" color="red.500">¡En Descuento!</Text>
             )}
           </Box>
-        )}
-      </>
-    </BaseLayout>
+
+          
+        </ListItem>
+      ))}
+    </List>
+
+    
+
+    </Box>
+    </>
   );
 };
 
 export default Products;
+
+
+
+

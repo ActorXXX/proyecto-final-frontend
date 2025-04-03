@@ -4,6 +4,7 @@ import AppOutlet from "./AppOutlet"
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import CreateProduct from "../pages/CreateProducts"
+import ListProducts from "../pages/ListProducts";
 
 const Products = lazy(() => import('../pages/Products'))
 /*const SingleProduct = lazy(() => import('../pages/SingleProduct'))*/
@@ -15,7 +16,7 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route element={<AppOutlet />}>
-        <Route path="/products" element={<Products />} />
+        <Route path="/products" element={<ListProducts />} />
         <Route path="/admin" element={<Admin />}>
           {/* Rutas disponibles solo dentro de /admin */}
           <Route path="createproducts" element={<CreateProduct />} />

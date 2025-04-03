@@ -6,7 +6,8 @@ import BaseLayout from "@layouts/BaseLayout"
 import beneficio1 from '@images/beneficio1.webp'
 import beneficio2 from '@images/beneficio2.webp'
 import beneficio3 from '@images/beneficio3.webp'
-import DummyProducts from "@components/DummyProducto"
+import Products from "./Products"
+
 
 const Home = () => {
 
@@ -30,10 +31,10 @@ const Home = () => {
                     </HStack>
                 </HStack>
             </Box>
-            <Box  display='flex' justifyContent='center'flexWrap='wrap' m={['0 auto', '0 auto', '0 auto']}  gap='1em' w={[300, 450, 700, 900]} >
-                <DummyProducts />                
-            </Box>
         </>
+        <Box>
+            <Products />
+        </Box>
     </BaseLayout>
   
 )
