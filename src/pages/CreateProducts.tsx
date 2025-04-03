@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import { BiPencil, BiTrash } from "react-icons/bi";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "http://postgresql.lomino.net.pe:5000/api/products";
 
 const CreateProducts = () => {
   const [products, setProducts] = useState([]);

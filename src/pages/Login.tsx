@@ -11,7 +11,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/login', {
+            const response = await fetch('http://postgresql.lomino.net.pe:5000/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -20,6 +20,8 @@ const Login = () => {
             });
 
             const data = await response.json();
+
+            console.log(data);
             
             if (!response.ok) throw new Error(data.message || 'Error al iniciar sesión');
 

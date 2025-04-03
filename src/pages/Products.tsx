@@ -24,7 +24,7 @@ import {
 import { BiPencil, BiTrash } from "react-icons/bi";
 import BaseLayout from '@layouts/BaseLayout';
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "http://postgresql.lomino.net.pe:5000/api/products";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
