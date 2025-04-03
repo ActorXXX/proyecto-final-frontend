@@ -45,8 +45,7 @@ const Navbar = () => {
         <>
             <HStack minH='40px' bgColor='#1a1a1a' >
                 <HStack w={[300, 450, 700, 900]} m='0 auto' p='1em 0' color='#eee' justifyContent='space-between'>
-                    <HStack gap='1em'>
-                        <Image w='40px' src={logo} alt='logo tienda' />
+                    <HStack gap='1em'>                        
                         <Text fontSize='2xl'>Mi tienda</Text>
                     </HStack>
                     <HStack gap='2em' display={{ base: 'none', md: 'flex' }}>

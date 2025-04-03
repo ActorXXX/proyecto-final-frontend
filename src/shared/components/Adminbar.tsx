@@ -1,6 +1,6 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import logo from '../../../public/my-logo.png';
+
 import { Link } from "react-router-dom";
 import { account } from "../lib/api";
 
@@ -39,8 +39,7 @@ const Adminbar = () => {
         <>
             <HStack minH='40px' bgColor='#1a1a1a' >
                 <HStack w={[300, 450, 700, 900]} m='0 auto' p='1em 0' color='#eee' justifyContent='space-between'>
-                    <HStack gap='1em' as={Link} to='/'>
-                        <Image w='40px' src={logo} alt='logo tienda' />
+                    <HStack gap='1em' as={Link} to='/'>                        
                         <Text fontSize='2xl' >Mi tienda</Text>
                     </HStack>
                     <HStack gap='2em' display={'flex'}>

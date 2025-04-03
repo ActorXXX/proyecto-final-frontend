@@ -11,7 +11,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch('http://localhost:5000/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const Login = () => {
             <Text fontSize='2xl' mb='4' color={'wheat'}>Iniciar Sesión</Text>
             <Input
                 width='300px'
-                color='black'
+                color='white'
                 bgColor='white'
                 placeholder='Correo electrónico'
                 value={email}
@@ -50,7 +50,7 @@ const Login = () => {
             />
             <Input
                 width='300px'
-                color='black'
+                color='white'
                 bgColor='white'
                 placeholder='Contraseña'
                 type='password'

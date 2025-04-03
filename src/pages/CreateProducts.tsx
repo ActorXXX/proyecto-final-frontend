@@ -57,16 +57,24 @@ const CreateProducts = () => {
     }
   };
 
-  // Editar producto
   const editProduct = async (updatedProduct) => {
     try {
       setIsLoading(true);
+      console.log("Enviando producto actualizado:", updatedProduct);
+  
       const response = await fetch(`${API_URL}/${updatedProduct.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedProduct),
       });
-      const data = await response.json();
+  
+      console.log("Código de respuesta:", response.status);
+      const responseData = await response.text();
+      console.log("Respuesta del servidor:", responseData);
+  
+      if (!response.ok) throw new Error(`Error al actualizar el producto: ${response.status}`);
+  
+      const data = JSON.parse(responseData);
       setProducts((prev) => prev.map((p) => (p.id === data.id ? data : p)));
       setIsModalOpen(false);
     } catch (error) {
@@ -75,15 +83,21 @@ const CreateProducts = () => {
       setIsLoading(false);
     }
   };
-
+  
   // Crear producto
   const createProduct = async () => {
     try {
       setIsLoading(true);
+      const productToSend = {
+        ...newProduct,
+        discount: !!newProduct.discount // Asegura que sea true o false
+      };      
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProduct),
+        headers: { 'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+         },
+        body: JSON.stringify(productToSend),
       });
       const data = await response.json();
       setProducts((prev) => [...prev, data]);
@@ -102,54 +116,196 @@ const CreateProducts = () => {
 
   return (
     <Box>
-      <Button onClick={() => setIsCreateModalOpen(true)}>Agregar Producto</Button>
+      <Button onClick={() => setIsCreateModalOpen(true)} ml={600} mr={600} mt={5} mb={5}>Agregar Producto</Button>
       <List>
-        {products.map((p) => (
-          <ListItem key={p.id}>
-            <Text>{p.name} - ${p.price}</Text>
-            <IconButton icon={<BiPencil />} onClick={() => { setSelectedProduct(p); setIsModalOpen(true); }} />
-            <IconButton icon={<BiTrash />} onClick={() => deleteProduct(p.id)} />
-          </ListItem>
-        ))}
-      </List>
-
-      {/* Modal para editar */}
-      {selectedProduct && (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Editar Producto</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl>
-                <FormLabel>Nombre</FormLabel>
-                <Input value={selectedProduct.name} onChange={(e) => setSelectedProduct({ ...selectedProduct, name: e.target.value })} />
-              </FormControl>
-            </ModalBody>
-            <ModalFooter>
-              <Button onClick={() => editProduct(selectedProduct)}>Guardar</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+  {products.map((p) => (
+    <ListItem 
+      key={p.id} 
+      p={4} 
+      border="1px solid #ccc" 
+      borderRadius="md" 
+      mb={5}
+      ml={200}
+      mr={200}
+      display="flex"
+      alignItems="center"
+      gap={4}
+    >
+      {/* Imagen del producto */}
+      {p.imageId && (
+        <Img 
+          src={`${p.imageId}`} 
+          alt={p.name} 
+          boxSize="100px" 
+          objectFit="cover"
+        />
       )}
 
-      {/* Modal para crear */}
-      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Crear Producto</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel>Nombre</FormLabel>
-              <Input value={newProduct.name || ''} onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={createProduct}>Crear</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {/* Información del producto */}
+      <Box flex="1">
+        <Text fontSize="lg" fontWeight="bold">{p.name}</Text>
+        <Text fontSize="md" color="gray.600">{p.description}</Text>
+        <Text fontSize="lg" color="teal.500">${p.price}</Text>
+        {p.discount && (
+          <Text fontSize="sm" color="red.500">¡En Descuento!</Text>
+        )}
+      </Box>
+
+      {/* Botones de acción */}
+      <Flex gap={2}>
+        <IconButton 
+          icon={<BiPencil />} 
+          onClick={() => { setSelectedProduct(p); setIsModalOpen(true); }} 
+          aria-label="Editar"
+        />
+        <IconButton 
+          icon={<BiTrash />} 
+          onClick={() => deleteProduct(p.id)} 
+          aria-label="Eliminar"
+        />
+      </Flex>
+    </ListItem>
+  ))}
+</List>
+
+{selectedProduct && (
+  <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>Editar Producto</ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        {/* Nombre */}
+        <FormControl>
+          <FormLabel>Nombre</FormLabel>
+          <Input 
+            value={selectedProduct.name} 
+            onChange={(e) => setSelectedProduct({ ...selectedProduct, name: e.target.value })} 
+          />
+        </FormControl>
+
+        {/* Descripción */}
+        <FormControl mt={2}>
+          <FormLabel>Descripción</FormLabel>
+          <Textarea 
+            value={selectedProduct.description || ""} 
+            onChange={(e) => setSelectedProduct({ ...selectedProduct, description: e.target.value })} 
+          />
+        </FormControl>
+
+        {/* Precio */}
+        <FormControl mt={2}>
+          <FormLabel>Precio</FormLabel>
+          <Input 
+            type="number" 
+            value={selectedProduct.price || 0} 
+            onChange={(e) => setSelectedProduct({ ...selectedProduct, price: parseFloat(e.target.value) })} 
+          />
+        </FormControl>
+
+        {/* Checkbox de Descuento */}
+        <FormControl mt={2} display="flex" alignItems="center">
+          <Checkbox 
+            isChecked={selectedProduct.discount} 
+            onChange={(e) => setSelectedProduct({ ...selectedProduct, discount: e.target.checked })} 
+          >
+            Tiene descuento
+          </Checkbox>
+        </FormControl>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button 
+          colorScheme="blue" 
+          onClick={() => editProduct(selectedProduct)} 
+          isLoading={isLoading}
+        >
+          Guardar Cambios
+        </Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+)}{/* Modal para crear */}
+<Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader>Crear Producto</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody>
+      {/* Nombre */}
+      <FormControl>
+        <FormLabel>Nombre</FormLabel>
+        <Input
+          value={newProduct.name || ''}
+          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+        />
+      </FormControl>
+
+      {/* Marca */}
+      <FormControl mt={2}>
+        <FormLabel>Marca</FormLabel>
+        <Input
+          value={newProduct.brand || ''}
+          onChange={(e) => setNewProduct({ ...newProduct, brand: e.target.value })}
+        />
+      </FormControl>
+
+      {/* Precio */}
+      <FormControl mt={2}>
+        <FormLabel>Precio</FormLabel>
+        <Input
+          type="number"
+          value={newProduct.price || ''}
+          onChange={(e) => setNewProduct({ ...newProduct, price: parseFloat(e.target.value) })}
+        />
+      </FormControl>
+
+      {/* Descripción */}
+      <FormControl mt={2}>
+        <FormLabel>Descripción</FormLabel>
+        <Textarea
+          value={newProduct.description || ''}
+          onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+        />
+      </FormControl>
+
+      {/* Activo */}
+      <FormControl mt={2} display="flex" alignItems="center">
+        <Checkbox
+          isChecked={newProduct.active || false}
+          onChange={(e) => setNewProduct({ ...newProduct, active: e.target.checked })}
+        >
+          Producto activo
+        </Checkbox>
+      </FormControl>
+
+      {/* Descuento */}
+      <FormControl mt={2} display="flex" alignItems="center">
+        <Checkbox
+          isChecked={newProduct.discount || false }
+          onChange={(e) => setNewProduct({ ...newProduct, discount: e.target.checked })}
+        >
+          Tiene descuento
+        </Checkbox>
+      </FormControl>
+
+      {/* Imagen (URL) */}
+      <FormControl mt={2}>
+        <FormLabel>Imagen URL</FormLabel>
+        <Input
+          value={newProduct.imageId || ''}
+          onChange={(e) => setNewProduct({ ...newProduct, imageId: e.target.value })}
+        />
+      </FormControl>
+    </ModalBody>
+    <ModalFooter>
+      <Button colorScheme="blue" onClick={createProduct} isLoading={isLoading}>
+        Crear
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>
+
     </Box>
   );
 };

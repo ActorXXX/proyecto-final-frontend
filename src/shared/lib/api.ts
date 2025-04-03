@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// URL del backend (asegúrate de que esté en el .env)
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // Cliente API
@@ -50,13 +50,16 @@ export const deleteProduct = async (id: string) => {
 };
 
 // Función para el login
-export const login = async (username: string, password: string) => {
-  const response = await api.post("/auth/login", { username, password });
-  return response.data;
-};
-
-// Función para el registro
-export const register = async (username: string, password: string) => {
-  const response = await api.post("/auth/register", { username, password });
-  return response.data;
+export const account = {
+  login: async (username: string, password: string) => {
+    const response = await api.post("/users/login", { username, password });
+    return response.data;
+  },
+  register: async (username: string, password: string) => {
+    const response = await api.post("/users/register", { username, password });
+    return response.data;
+  },
+  deleteSession: (key: string) => {
+    localStorage.removeItem(key);
+  }
 };
