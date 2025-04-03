@@ -4,20 +4,21 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { account } from "../lib/api";
 
-const deleteCookieFallback = () => {
-    localStorage.removeItem('cookieFallback');
+const deleteToken = () => {
+    localStorage.removeItem('token');
     console.log('cookieFallback has been deleted from local storage');
   };
 
 const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    account.deleteSession('current')
+    account.deleteSession('current');
+    localStorage.removeItem('user');
 }
 
 const exitIntranet = async (e: React.MouseEvent<HTMLButtonElement>) => {
     handleLogout(e);
-    deleteCookieFallback()
+    deleteToken()
 }
 
 const NavLink = ({ icon, text, to }: {
